@@ -22,6 +22,7 @@ namespace desktop_pet
 			FormBorderStyle = FormBorderStyle.None;
 			TopMost = true;
 			ClientSize = new Size(255, 255);
+			TransparencyKey = BackColor;
 
 			// event handler init
 			MouseDown += new MouseEventHandler(Form1_LeftClickDown);
@@ -32,11 +33,26 @@ namespace desktop_pet
 			isDragging = false;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Form1_Load(object sender, EventArgs e)
 		{
 
 		}
 
+		//////////////////
+		// Mouse Events //
+		//////////////////
+
+		/// <summary>
+		/// Calls when the left mouse button is down.
+		/// isDragging flag make true.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Form1_LeftClickDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
@@ -46,6 +62,12 @@ namespace desktop_pet
 			}
 		}
 
+		/// <summary>
+		/// Calls when the mouse is dragging.
+		/// Form1 is following mouse.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Form1_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (this.isDragging)
@@ -56,6 +78,12 @@ namespace desktop_pet
 			}
 		}
 
+		/// <summary>
+		/// Calls when the left mouse button is up.
+		/// isDragging flag make false.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Form1_LeftClickUp(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
@@ -63,6 +91,5 @@ namespace desktop_pet
 				this.isDragging = false;
 			}
 		}
-
 	}
 }
