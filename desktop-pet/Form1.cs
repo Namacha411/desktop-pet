@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace desktop_pet
@@ -40,7 +34,20 @@ namespace desktop_pet
 		/// <param name="e"></param>
 		private void Form1_Load(object sender, EventArgs e)
 		{
+			var img = Properties.Resources.sleep_cat;
+			SetImage(img);
+		}
 
+		/// <summary>
+		/// set back ground image.
+		/// image transparent and zoom.
+		/// </summary>
+		/// <param name="img"></param>
+		private void SetImage(Bitmap img)
+		{
+			img.MakeTransparent();
+			BackgroundImageLayout = ImageLayout.Zoom;
+			BackgroundImage = img;
 		}
 
 		//////////////////
@@ -49,7 +56,7 @@ namespace desktop_pet
 
 		/// <summary>
 		/// Calls when the left mouse button is down.
-		/// isDragging flag make true.
+		/// isDragging flag makes true.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -80,7 +87,7 @@ namespace desktop_pet
 
 		/// <summary>
 		/// Calls when the left mouse button is up.
-		/// isDragging flag make false.
+		/// isDragging flag makes false.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -91,5 +98,6 @@ namespace desktop_pet
 				this.isDragging = false;
 			}
 		}
+
 	}
 }
