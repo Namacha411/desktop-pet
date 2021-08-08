@@ -29,7 +29,26 @@ namespace desktop_pet
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.RightClickMenu.SuspendLayout();
 			this.SuspendLayout();
+			// 
+			// RightClickMenu
+			// 
+			this.RightClickMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+			this.RightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ExitToolStripMenuItem});
+			this.RightClickMenu.Name = "RightClickMenu";
+			this.RightClickMenu.Size = new System.Drawing.Size(103, 28);
+			// 
+			// ExitToolStripMenuItem
+			// 
+			this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
+			this.ExitToolStripMenuItem.Size = new System.Drawing.Size(102, 24);
+			this.ExitToolStripMenuItem.Text = "Exit";
+			this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -39,11 +58,15 @@ namespace desktop_pet
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
+			this.RightClickMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
+
+		private System.Windows.Forms.ContextMenuStrip RightClickMenu;
+		private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
 	}
 }
 

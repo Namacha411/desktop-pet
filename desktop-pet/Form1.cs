@@ -20,6 +20,7 @@ namespace desktop_pet
 
 			// event handler init
 			MouseDown += new MouseEventHandler(Form1_LeftClickDown);
+			MouseDown += new MouseEventHandler(Form1_RightClickDown);
 			MouseUp += new MouseEventHandler(Form1_LeftClickUp);
 			MouseMove += new MouseEventHandler(Form1_MouseMove);
 
@@ -70,6 +71,19 @@ namespace desktop_pet
 		}
 
 		/// <summary>
+		/// Calls when the left mouse button is down.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Form1_RightClickDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				RightClickMenu.Show(this, new Point(e.X, e.Y));
+			}
+		}
+
+		/// <summary>
 		/// Calls when the mouse is dragging.
 		/// Form1 is following mouse.
 		/// </summary>
@@ -99,5 +113,9 @@ namespace desktop_pet
 			}
 		}
 
+		private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
 	}
 }
