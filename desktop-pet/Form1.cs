@@ -9,6 +9,9 @@ namespace desktop_pet
 		private bool isDragging;
 		private Point mousePointerOffset;
 
+		private Bitmap MainImage;
+		private Bitmap DraggingImage;
+
 		public Form1()
 		{
 			// Form1 init
@@ -17,6 +20,7 @@ namespace desktop_pet
 			TopMost = true;
 			ClientSize = new Size(255, 255);
 			TransparencyKey = BackColor;
+			ShowInTaskbar = false;
 
 			// event handler init
 			MouseDown += new MouseEventHandler(Form1_LeftClickDown);
@@ -35,8 +39,9 @@ namespace desktop_pet
 		/// <param name="e"></param>
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			var img = Properties.Resources.sleep_cat;
-			SetImage(img);
+			MainImage = Properties.Resources.sleep_cat;
+			DraggingImage = Properties.Resources.kowai_cat;
+			SetImage(MainImage);
 		}
 
 		/// <summary>
@@ -49,6 +54,16 @@ namespace desktop_pet
 			img.MakeTransparent();
 			BackgroundImageLayout = ImageLayout.Zoom;
 			BackgroundImage = img;
+		}
+
+		/// <summary>
+		/// application exit
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
 		}
 
 		//////////////////
@@ -67,6 +82,7 @@ namespace desktop_pet
 			{
 				this.isDragging = true;
 				this.mousePointerOffset = new Point(e.X, e.Y);
+				SetImage(DraggingImage);
 			}
 		}
 
@@ -110,12 +126,8 @@ namespace desktop_pet
 			if (e.Button == MouseButtons.Left)
 			{
 				this.isDragging = false;
+				SetImage(MainImage);
 			}
-		}
-
-		private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Application.Exit();
 		}
 	}
 }

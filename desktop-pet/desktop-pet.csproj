@@ -83,5 +83,9 @@
   <ItemGroup>
     <None Include="Resources\sleep_cat.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\kowai_cat.png" />
+    <Content Include="Resources\pet_folder_icon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

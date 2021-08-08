@@ -30,8 +30,10 @@ namespace desktop_pet
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.RightClickMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -50,6 +52,13 @@ namespace desktop_pet
 			this.ExitToolStripMenuItem.Text = "Exit";
 			this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
 			// 
+			// notifyIcon
+			// 
+			// icon from https://icon-icons.com/ja/%E6%A4%9C%E7%B4%A2/%E3%82%A2%E3%82%A4%E3%82%B3%E3%83%B3/?filtro=pet
+			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+			this.notifyIcon.Text = "notifyIcon";
+			this.notifyIcon.Visible = true;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -67,6 +76,7 @@ namespace desktop_pet
 
 		private System.Windows.Forms.ContextMenuStrip RightClickMenu;
 		private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
+		private System.Windows.Forms.NotifyIcon notifyIcon;
 	}
 }
 
