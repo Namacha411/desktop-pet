@@ -54,7 +54,6 @@ namespace desktop_pet
 			// 
 			// notifyIcon
 			// 
-			// icon from https://icon-icons.com/ja/%E6%A4%9C%E7%B4%A2/%E3%82%A2%E3%82%A4%E3%82%B3%E3%83%B3/?filtro=pet
 			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
 			this.notifyIcon.Text = "notifyIcon";
 			this.notifyIcon.Visible = true;

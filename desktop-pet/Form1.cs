@@ -39,9 +39,13 @@ namespace desktop_pet
 		/// <param name="e"></param>
 		private void Form1_Load(object sender, EventArgs e)
 		{
+			// init images
 			MainImage = Properties.Resources.sleep_cat;
 			DraggingImage = Properties.Resources.kowai_cat;
 			SetImage(MainImage);
+
+			// init sounds
+			// todo
 		}
 
 		/// <summary>
@@ -129,5 +133,6 @@ namespace desktop_pet
 				SetImage(MainImage);
 			}
 		}
+
 	}
 }
