@@ -61,6 +61,19 @@ namespace desktop_pet
 		}
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void EventTimer_Tick(object sender, EventArgs e)
+		{
+			if (SoundPlayer.IsTime(min: 0))
+			{
+				// SoundPlayer.PlayTimeSignal();
+			}
+		}
+
+		/// <summary>
 		/// application exit
 		/// </summary>
 		/// <param name="sender"></param>

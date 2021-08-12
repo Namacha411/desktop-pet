@@ -34,6 +34,7 @@ namespace desktop_pet
 			this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.EventTimer = new System.Windows.Forms.Timer(this.components);
 			this.RightClickMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -58,6 +59,11 @@ namespace desktop_pet
 			this.notifyIcon.Text = "notifyIcon";
 			this.notifyIcon.Visible = true;
 			// 
+			// EventTimer
+			// 
+			this.EventTimer.Interval = 1000;
+			this.EventTimer.Tick += new System.EventHandler(this.EventTimer_Tick);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -76,6 +82,7 @@ namespace desktop_pet
 		private System.Windows.Forms.ContextMenuStrip RightClickMenu;
 		private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
 		private System.Windows.Forms.NotifyIcon notifyIcon;
+		private System.Windows.Forms.Timer EventTimer;
 	}
 }
 
