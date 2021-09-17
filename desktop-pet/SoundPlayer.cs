@@ -9,7 +9,7 @@ namespace desktop_pet
 {
 	public static class SoundPlayer
 	{
-		private static readonly WindowsMediaPlayer mediaPlayer;
+		private static readonly WindowsMediaPlayer mediaPlayer = new WindowsMediaPlayer();
 
 		/// <summary>
 		/// play sound.
@@ -49,11 +49,25 @@ namespace desktop_pet
 			return true;
 		}
 
-		/// <summary>
-		/// play time signal.
-		/// </summary>
-		/// <param name="SoundPathList">time signal sound paths list. len is 24.</param>
-		public static void PlayTimeSignal(List<string> SoundPathList)
+		public static void PlayStartSound(string startSoundPath)
+		{
+			Play(startSoundPath);
+		}
+
+		public static void PlayExitSound(string exitSoundPath)
+		{
+			if (File.Exists(exitSoundPath))
+			{
+				mediaPlayer.URL = exitSoundPath;
+				mediaPlayer.controls.play();
+			}
+		}
+
+			/// <summary>
+			/// play time signal.
+			/// </summary>
+			/// <param name="SoundPathList">time signal sound paths list. len is 24.</param>
+			public static void PlayTimeSignal(List<string> SoundPathList)
 		{
 			var hour = DateTime.Now.Hour;
 			var soundPath = SoundPathList[hour];

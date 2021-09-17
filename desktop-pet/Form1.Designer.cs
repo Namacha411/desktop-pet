@@ -53,12 +53,6 @@ namespace desktop_pet
 			this.ExitToolStripMenuItem.Text = "Exit";
 			this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
 			// 
-			// notifyIcon
-			// 
-			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-			this.notifyIcon.Text = "notifyIcon";
-			this.notifyIcon.Visible = true;
-			// 
 			// EventTimer
 			// 
 			this.EventTimer.Interval = 1000;

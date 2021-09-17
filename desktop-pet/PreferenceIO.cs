@@ -11,41 +11,46 @@ namespace desktop_pet
 {
 	public static class PreferenceIO
 	{
-		public static string MainFolderPath = @".\preference";
-		public static string SoundsPath = $@"{MainFolderPath}\sounds";
-		public static string ImagesPath = $@"{MainFolderPath}\images";
-		public static string PreferencePath = $@"{MainFolderPath}\preference.json";
+		public static string MainFolderPath { get; private set; } = @".\preference";
+		public static string SoundsPath { get; private set; } = $@"{MainFolderPath}\sounds";
+		public static string ImagesPath { get; private set; } = $@"{MainFolderPath}\images";
+		public static string PreferencePath { get; private set; } = $@"{MainFolderPath}\preference.json";
 
 		public readonly static Preference defaultPreference = new Preference()
 		{
-			IconPath = @".\images\icon.ico",
-			MainImagesPaths = new List<string>() { @".\images\MainImge.png" },
-			DraggingImagesPaths = new List<string>() { @".\images\DraggingImage.png" },
+			IconPath = $@"{ImagesPath}\icon.ico",
+			MainImagesPaths = new List<string>() { $@"{ImagesPath}\MainImge.png" },
+			DraggingImagesPaths = new List<string>() { $@"{ImagesPath}\DraggingImage.png" },
 			TimeSignelPaths = new List<string>()
 			{
-				@".\sounds\午前0時.mp3",
-				@".\sounds\午前1時.mp3",
-				@".\sounds\午前2時.mp3",
-				@".\sounds\午前3時.mp3",
-				@".\sounds\午前4時.mp3",
-				@".\sounds\午前5時.mp3",
-				@".\sounds\午前6時.mp3",
-				@".\sounds\午前7時.mp3",
-				@".\sounds\午前8時.mp3",
-				@".\sounds\午前9時.mp3",
-				@".\sounds\午前10時.mp3",
-				@".\sounds\午前11時.mp3",
-				@".\sounds\午後0時.mp3",
-				@".\sounds\午後1時.mp3",
-				@".\sounds\午後2時.mp3",
-				@".\sounds\午後3時.mp3",
-				@".\sounds\午後4時.mp3",
-				@".\sounds\午後5時.mp3",
-				@".\sounds\午後6時.mp3",
+				$@"{SoundsPath}\午前0時.mp3",
+				$@"{SoundsPath}\午前1時.mp3",
+				$@"{SoundsPath}\午前2時.mp3",
+				$@"{SoundsPath}\午前3時.mp3",
+				$@"{SoundsPath}\午前4時.mp3",
+				$@"{SoundsPath}\午前5時.mp3",
+				$@"{SoundsPath}\午前6時.mp3",
+				$@"{SoundsPath}\午前7時.mp3",
+				$@"{SoundsPath}\午前8時.mp3",
+				$@"{SoundsPath}\午前9時.mp3",
+				$@"{SoundsPath}\午前10時.mp3",
+				$@"{SoundsPath}\午前11時.mp3",
+				$@"{SoundsPath}\午後0時.mp3",
+				$@"{SoundsPath}\午後1時.mp3",
+				$@"{SoundsPath}\午後2時.mp3",
+				$@"{SoundsPath}\午後3時.mp3",
+				$@"{SoundsPath}\午後4時.mp3",
+				$@"{SoundsPath}\午後5時.mp3",
+				$@"{SoundsPath}\午後6時.mp3",
+				$@"{SoundsPath}\午後7時.mp3",
+				$@"{SoundsPath}\午後8時.mp3",
+				$@"{SoundsPath}\午後9時.mp3",
+				$@"{SoundsPath}\午後10時.mp3",
+				$@"{SoundsPath}\午後11時.mp3",
 			},
-			StartSoundPath = @".\sounds\startsound.mp3",
-			ExitSoundPath = @".\sounds\exitsound.mp3",
-			LowBattelySoundPath = @".\sounds\lowbattelysound.mp3"
+			StartSoundPath = $@"{SoundsPath}\startsound.mp3",
+			ExitSoundPath = $@"{SoundsPath}\exitsound.mp3",
+			LowBattelySoundPath = $@"{SoundsPath}\lowbattelysound.mp3"
 		};
 
 		/// <summary>
@@ -88,48 +93,48 @@ namespace desktop_pet
 				MessageBox.Show(e.ToString());
 			}
 		}
+	}
 
-		public class Preference
+	public class Preference
+	{
+		public string IconPath { get; set; }
+		public List<string> MainImagesPaths { get; set; }
+		public List<string> DraggingImagesPaths { get; set; }
+
+		public List<string> TimeSignelPaths { get; set; }
+
+		public string StartSoundPath { get; set; }
+		public string ExitSoundPath { get; set; }
+		public string LowBattelySoundPath { get; set; }
+
+		public Preference() { }
+
+		/// <summary>
+		/// serialize json file.
+		/// </summary>
+		/// <returns>string json data.</returns>
+		public string Serialize()
 		{
-			public string IconPath { get; set; }
-			public List<string> MainImagesPaths { get; set; }
-			public List<string> DraggingImagesPaths { get; set; }
+			string json = JsonSerializer.Serialize(
+				value: this,
+				options: new JsonSerializerOptions
+				{
+					Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+					AllowTrailingCommas = true,
+					WriteIndented = true
+				}
+				);
+			return json;
+		}
 
-			public List<string> TimeSignelPaths { get; set; }
-
-			public string StartSoundPath { get; set; }
-			public string ExitSoundPath { get; set; }
-			public string LowBattelySoundPath { get; set; }
-
-			public Preference() { }
-
-			/// <summary>
-			/// serialize json file.
-			/// </summary>
-			/// <returns>string json data.</returns>
-			public string Serialize()
-			{
-				string json = JsonSerializer.Serialize(
-					value: this,
-					options: new JsonSerializerOptions
-					{
-						Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-						AllowTrailingCommas = true,
-						WriteIndented = true
-					}
-					);
-				return json;
-			}
-
-			/// <summary>
-			/// deserialize json file.
-			/// </summary>
-			/// <param name="json">string json data.</param>
-			/// <returns>deserialized preference data.</returns>
-			public Preference Deserialize(string json)
-			{
-				return JsonSerializer.Deserialize<Preference>(json);
-			}
+		/// <summary>
+		/// deserialize json file.
+		/// </summary>
+		/// <param name="json">string json data.</param>
+		/// <returns>deserialized preference data.</returns>
+		public static Preference Deserialize(string json)
+		{
+			return JsonSerializer.Deserialize<Preference>(json);
 		}
 	}
 }
