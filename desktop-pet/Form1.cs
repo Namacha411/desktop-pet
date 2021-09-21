@@ -13,17 +13,17 @@ namespace desktop_pet
 	{
 		private readonly Preference Preference;
 
-		private readonly Bitmap MainImage;
-		private readonly Bitmap DraggingImage;
-
 		private readonly List<Bitmap> MainImages;
 		private readonly List<Bitmap> DraggingImages;
 
 		private bool isDragging;
 		private Point mousePointerOffset;
+		private int imagesFrame;
 
 		public Form1()
 		{
+			InitializeComponent();
+
 			// read preference file
 			if (!File.Exists(PreferenceIO.PreferencePath))
 			{
@@ -31,15 +31,6 @@ namespace desktop_pet
 			}
 			var json = PreferenceIO.FileRead();
 			this.Preference = Preference.Deserialize(json);
-
-			// init Form
-			InitializeComponent();
-			FormBorderStyle = FormBorderStyle.None;
-			TopMost = true;
-			ClientSize = new Size(255, 255);
-			TransparencyKey = BackColor;
-			ShowInTaskbar = false;
-			EventTimer.Start();
 
 			// init notify icon
 			var iconMenu = new ContextMenuStrip();
@@ -82,10 +73,6 @@ namespace desktop_pet
 			notifyIcon.ContextMenuStrip = iconMenu;
 
 			// init images
-			MainImage = Properties.Resources.sleep_cat;
-			DraggingImage = Properties.Resources.kowai_cat;
-			SetImage(MainImage);
-
 			MainImages =
 				Preference.MainImagesPaths
 				.Where((path) => File.Exists(path))
@@ -96,6 +83,13 @@ namespace desktop_pet
 				.Where((path) => File.Exists(path))
 				.Select((path) => new Bitmap(path))
 				.ToList();
+			if (MainImages.Count == 0 || DraggingImages.Count == 0)
+			{
+				MessageBox.Show("Images are not exsit.");
+				Environment.Exit(0);
+				return;
+			}
+			SetImage(MainImages[0]);
 
 			// event handler init
 			MouseDown += new MouseEventHandler(Form1_LeftClickDown);
@@ -105,6 +99,27 @@ namespace desktop_pet
 
 			// variable init
 			isDragging = false;
+			imagesFrame = 0;
+
+			// init Form
+			FormBorderStyle = FormBorderStyle.None;
+			TopMost = true;
+			ClientSize = new Size(255, 255);
+			TransparencyKey = BackColor;
+			ShowInTaskbar = false;
+			EventTimer.Start();
+			AnimationFrameRate.Start();
+			DraggingAnimationFrameRate.Start();
+
+			// start sound
+			SoundPlayer.PlayStartSound(Preference.StartSoundPath);
+
+			// debug
+			Console.WriteLine("DEBUG:");
+			Console.WriteLine("MAIN =>");
+			foreach (var img in MainImages) Console.WriteLine(img.Size);
+			Console.WriteLine("DRAGGING =>");
+			foreach (var img in DraggingImages) Console.WriteLine(img.Size);
 		}
 
 		/// <summary>
@@ -114,7 +129,6 @@ namespace desktop_pet
 		/// <param name="e"></param>
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			SoundPlayer.PlayStartSound(Preference.StartSoundPath);
 		}
 
 		/// <summary>
@@ -142,6 +156,7 @@ namespace desktop_pet
 			}
 		}
 
+		#region menu event
 		/// <summary>
 		/// application exit.
 		/// </summary>
@@ -180,7 +195,7 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// open this application github repository in browser.
+		/// open this application repository in browser.
 		/// </summary>
 		private void OpenRepoPage()
 		{
@@ -188,11 +203,33 @@ namespace desktop_pet
 			var sourcecode = new ProcessStartInfo(link);
 			Process.Start(sourcecode);
 		}
+		#endregion
 
-		//////////////////
-		// Mouse Events //
-		//////////////////
+		#region animation
+		private void Animation(List<Bitmap> images)
+		{
+			imagesFrame = (imagesFrame + 1) % images.Count;
+			SetImage(images[imagesFrame]);
+		}
 
+		private void AnimationFrameRate_Tick(object sender, EventArgs e)
+		{
+			if (!this.isDragging)
+			{
+				Animation(MainImages);
+			}
+		}
+
+		private void DraggingAnimationFrameRate_Tick(object sender, EventArgs e)
+		{
+			if (this.isDragging)
+			{
+				Animation(DraggingImages);
+			}
+		}
+		#endregion
+
+		#region mouse event
 		/// <summary>
 		/// Calls when the left mouse button is down.
 		/// isDragging flag makes true.
@@ -205,7 +242,6 @@ namespace desktop_pet
 			{
 				this.isDragging = true;
 				this.mousePointerOffset = new Point(e.X, e.Y);
-				SetImage(DraggingImage);
 			}
 		}
 
@@ -249,9 +285,8 @@ namespace desktop_pet
 			if (e.Button == MouseButtons.Left)
 			{
 				this.isDragging = false;
-				SetImage(MainImage);
 			}
 		}
-
+		#endregion
 	}
 }

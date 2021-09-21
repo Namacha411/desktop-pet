@@ -54,6 +54,10 @@ namespace desktop_pet
 			Play(startSoundPath);
 		}
 
+		/// <summary>
+		/// BUG: Can't play sound.
+		/// </summary>
+		/// <param name="exitSoundPath"></param>
 		public static void PlayExitSound(string exitSoundPath)
 		{
 			if (File.Exists(exitSoundPath))
@@ -63,11 +67,11 @@ namespace desktop_pet
 			}
 		}
 
-			/// <summary>
-			/// play time signal.
-			/// </summary>
-			/// <param name="SoundPathList">time signal sound paths list. len is 24.</param>
-			public static void PlayTimeSignal(List<string> SoundPathList)
+		/// <summary>
+		/// play time signal.
+		/// </summary>
+		/// <param name="SoundPathList">time signal sound paths list. len is 24.</param>
+		public static void PlayTimeSignal(List<string> SoundPathList)
 		{
 			var hour = DateTime.Now.Hour;
 			var soundPath = SoundPathList[hour];

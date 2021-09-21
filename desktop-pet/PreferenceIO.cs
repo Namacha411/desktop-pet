@@ -19,7 +19,7 @@ namespace desktop_pet
 		public readonly static Preference defaultPreference = new Preference()
 		{
 			IconPath = $@"{ImagesPath}\icon.ico",
-			MainImagesPaths = new List<string>() { $@"{ImagesPath}\MainImge.png" },
+			MainImagesPaths = new List<string>() { $@"{ImagesPath}\MainIamge.png" },
 			DraggingImagesPaths = new List<string>() { $@"{ImagesPath}\DraggingImage.png" },
 			TimeSignelPaths = new List<string>()
 			{
