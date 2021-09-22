@@ -27,6 +27,7 @@ namespace desktop_pet
 			// read preference file
 			if (!File.Exists(PreferenceIO.PreferencePath))
 			{
+				PreferenceIO.CreateDirectory();
 				PreferenceIO.FileWrite();
 			}
 			var json = PreferenceIO.FileRead();
@@ -36,37 +37,43 @@ namespace desktop_pet
 			var iconMenu = new ContextMenuStrip();
 			iconMenu.Items.AddRange(new ToolStripItem[]{
 				new ToolStripMenuItem(
-					text: "Exit",
+					text: "🚪Exit",
 					image: null,
 					onClick: (s, e) => { ApplicationExit(); },
 					name: "Exit"
 					),
 				new ToolStripMenuItem(
-					text: "Reset position",
+					text: "🔙Reset position",
 					image: null,
 					onClick: (s, e) => { Location = new Point(0, 0); },
 					name: "Reset position"
 					),
 				new ToolStripMenuItem(
-					text: "Preference",
+					text: "⚙Preference",
 					image: null,
 					onClick: (s, e) => { OpenPreferenceInExplorer(); },
 					name: "Preference"
 					),
 				new ToolStripMenuItem(
-					text: "About",
+					text: "📄About",
 					image: null,
 					onClick: (s, e) => { MessageBox.Show(GetVersion()); },
 					name: "About"
 					),
 				new ToolStripMenuItem(
-					text: "Source code",
+					text: "📃Source code",
 					image: null,
 					onClick: (s, e) => { OpenRepoPage(); },
 					name: "Source code"
 					)
 			});
 
+			if (!File.Exists(Preference.IconPath))
+			{
+				MessageBox.Show("⚠Icon image is not exsit.");
+				Environment.Exit(0);
+				return;
+			}
 			notifyIcon.Icon = new Icon(Preference.IconPath);
 			notifyIcon.Text = "Destop pet";
 			notifyIcon.Visible = true;
@@ -85,7 +92,7 @@ namespace desktop_pet
 				.ToList();
 			if (MainImages.Count == 0 || DraggingImages.Count == 0)
 			{
-				MessageBox.Show("Images are not exsit.");
+				MessageBox.Show("⚠Images are not exsit.");
 				Environment.Exit(0);
 				return;
 			}
@@ -113,13 +120,6 @@ namespace desktop_pet
 
 			// start sound
 			SoundPlayer.PlayStartSound(Preference.StartSoundPath);
-
-			// debug
-			Console.WriteLine("DEBUG:");
-			Console.WriteLine("MAIN =>");
-			foreach (var img in MainImages) Console.WriteLine(img.Size);
-			Console.WriteLine("DRAGGING =>");
-			foreach (var img in DraggingImages) Console.WriteLine(img.Size);
 		}
 
 		/// <summary>
