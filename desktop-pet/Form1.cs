@@ -23,7 +23,37 @@ namespace desktop_pet
 		public Form1()
 		{
 			InitializeComponent();
+			Preference = NewPreference();
+			notifyIcon = NewNotifyIcon();
+			MainImages = NewMainImages();
+			DraggingImages = NewDraggingImages();
 
+			// event handler init
+			MouseDown += new MouseEventHandler(Form1_LeftClickDown);
+			MouseDown += new MouseEventHandler(Form1_RightClickDown);
+			MouseUp += new MouseEventHandler(Form1_LeftClickUp);
+			MouseMove += new MouseEventHandler(Form1_MouseMove);
+
+			// variable init
+			isDragging = false;
+			imagesFrame = 0;
+
+			// init Form
+			FormBorderStyle = FormBorderStyle.None;
+			TopMost = true;
+			ClientSize = new Size(255, 255);
+			TransparencyKey = BackColor;
+			ShowInTaskbar = false;
+			EventTimer.Start();
+			AnimationFrameRate.Start();
+			DraggingAnimationFrameRate.Start();
+
+			// start sound
+			SoundPlayer.PlayStartSound(Preference.StartSoundPath);
+		}
+
+		public Preference NewPreference()
+		{
 			// read preference file
 			if (!File.Exists(PreferenceIO.PreferencePath))
 			{
@@ -31,9 +61,11 @@ namespace desktop_pet
 				PreferenceIO.FileWrite();
 			}
 			var json = PreferenceIO.FileRead();
-			this.Preference = Preference.Deserialize(json);
+			return Preference.Deserialize(json);
+		}
 
-			// init notify icon
+		public NotifyIcon NewNotifyIcon()
+		{
 			var iconMenu = new ContextMenuStrip();
 			iconMenu.Items.AddRange(new ToolStripItem[]{
 				new ToolStripMenuItem(
@@ -67,59 +99,35 @@ namespace desktop_pet
 					name: "Source code"
 					)
 			});
-
-			if (!File.Exists(Preference.IconPath))
+			var icon = Properties.Resources.pet_folder_icon;
+			if (File.Exists(Preference.IconPath))
 			{
-				MessageBox.Show("⚠Icon image is not exsit.");
-				Environment.Exit(0);
-				return;
+				icon = new Icon(Preference.IconPath);
 			}
-			notifyIcon.Icon = new Icon(Preference.IconPath);
-			notifyIcon.Text = "Destop pet";
-			notifyIcon.Visible = true;
-			notifyIcon.ContextMenuStrip = iconMenu;
 
-			// init images
-			MainImages =
-				Preference.MainImagesPaths
+			return new NotifyIcon
+			{
+				Icon = icon,
+				Text = "Desktop pet",
+				Visible = true,
+				ContextMenuStrip = iconMenu
+			};
+		}
+
+		public List<Bitmap> NewMainImages()
+        {
+			return Preference.MainImagesPaths
 				.Where((path) => File.Exists(path))
 				.Select((path) => new Bitmap(path))
 				.ToList();
-			DraggingImages =
-				Preference.DraggingImagesPaths
+		}
+
+		public List<Bitmap> NewDraggingImages()
+		{
+			return Preference.DraggingImagesPaths
 				.Where((path) => File.Exists(path))
 				.Select((path) => new Bitmap(path))
 				.ToList();
-			if (MainImages.Count == 0 || DraggingImages.Count == 0)
-			{
-				MessageBox.Show("⚠Images are not exsit.");
-				Environment.Exit(0);
-				return;
-			}
-			SetImage(MainImages[0]);
-
-			// event handler init
-			MouseDown += new MouseEventHandler(Form1_LeftClickDown);
-			MouseDown += new MouseEventHandler(Form1_RightClickDown);
-			MouseUp += new MouseEventHandler(Form1_LeftClickUp);
-			MouseMove += new MouseEventHandler(Form1_MouseMove);
-
-			// variable init
-			isDragging = false;
-			imagesFrame = 0;
-
-			// init Form
-			FormBorderStyle = FormBorderStyle.None;
-			TopMost = true;
-			ClientSize = new Size(255, 255);
-			TransparencyKey = BackColor;
-			ShowInTaskbar = false;
-			EventTimer.Start();
-			AnimationFrameRate.Start();
-			DraggingAnimationFrameRate.Start();
-
-			// start sound
-			SoundPlayer.PlayStartSound(Preference.StartSoundPath);
 		}
 
 		/// <summary>
@@ -170,7 +178,7 @@ namespace desktop_pet
 		/// <summary>
 		/// application exit.
 		/// </summary>
-		private void ApplicationExit()
+		public void ApplicationExit()
 		{
 			SoundPlayer.PlayExitSound(Preference.ExitSoundPath);
 			Application.Exit();
@@ -208,6 +216,7 @@ namespace desktop_pet
 		#region animation
 		private void Animation(List<Bitmap> images)
 		{
+			if (images.Count == 0) return;
 			imagesFrame = (imagesFrame + 1) % images.Count;
 			SetImage(images[imagesFrame]);
 		}
