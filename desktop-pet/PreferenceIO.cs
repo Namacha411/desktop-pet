@@ -9,6 +9,9 @@ using System.Windows.Forms;
 
 namespace desktop_pet
 {
+	/// <summary>
+	/// プリファレンスの入出力
+	/// </summary>
 	public static class PreferenceIO
 	{
 		public static string MainFolderPath { get; private set; } = @".\preference";
@@ -54,7 +57,7 @@ namespace desktop_pet
 		};
 
 		/// <summary>
-		/// read preference file.
+		/// プリファレンスファイルの読み込み
 		/// </summary>
 		/// <returns>preference file. string json</returns>
 		public static string FileRead()
@@ -66,7 +69,7 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// Write default preference file.
+		/// デフォルトプリファレンスファイルの書き出し
 		/// </summary>
 		public static void FileWrite()
 		{
@@ -78,7 +81,7 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// create directory for preference file, sounds, images.
+		/// プリファレンスファイル、サウンド、イメージ用のフォルダの生成
 		/// </summary>
 		public static void CreateDirectory()
 		{
@@ -95,6 +98,9 @@ namespace desktop_pet
 		}
 	}
 
+	/// <summary>
+	/// プリファレンス
+	/// </summary>
 	public class Preference
 	{
 		public string IconPath { get; set; }
@@ -110,9 +116,9 @@ namespace desktop_pet
 		public Preference() { }
 
 		/// <summary>
-		/// serialize json file.
+		/// プリファレンスファイルのjsonのシリアライズ
 		/// </summary>
-		/// <returns>string json data.</returns>
+		/// <returns>シリアライズされたjsonの文字列</returns>
 		public string Serialize()
 		{
 			string json = JsonSerializer.Serialize(
@@ -128,10 +134,10 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// deserialize json file.
+		/// プリファレンスファイルのjsonのデシリアライズ
 		/// </summary>
-		/// <param name="json">string json data.</param>
-		/// <returns>deserialized preference data.</returns>
+		/// <param name="json">文字列のjson</param>
+		/// <returns>デシリアライズされたデータのPreferenceクラス</returns>
 		public static Preference Deserialize(string json)
 		{
 			return JsonSerializer.Deserialize<Preference>(json);

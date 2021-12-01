@@ -140,8 +140,8 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// set back ground image.
-		/// image transparent and zoom.
+		/// 背景画像の設定
+		/// 画像は可能なら透過し拡大
 		/// </summary>
 		/// <param name="img"></param>
 		private void SetImage(Bitmap img)
@@ -152,7 +152,7 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// 
+		/// 毎時0分になったら時報を再生する
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -166,7 +166,7 @@ namespace desktop_pet
 
 		#region menu event
 		/// <summary>
-		/// application exit.
+		/// アプリケーション終了用のメニューアイテム
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -176,7 +176,7 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// application exit.
+		/// アプリケーションの終了
 		/// </summary>
 		public void ApplicationExit()
 		{
@@ -185,7 +185,7 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// open preference file
+		/// エクスプローラーでプリファレンスを開く
 		/// </summary>
 		private void OpenPreferenceInExplorer()
 		{
@@ -193,7 +193,7 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// get this application varsion.
+		/// このアプリケーションのバージョンを取得
 		/// </summary>
 		/// <returns>varsion info</returns>
 		private string GetVersion()
@@ -203,7 +203,7 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// open this application repository in browser.
+		/// ブラウザでこのアプリのリポジトリのページを開く
 		/// </summary>
 		private void OpenRepoPage()
 		{

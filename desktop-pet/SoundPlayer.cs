@@ -7,14 +7,17 @@ using WMPLib;
 
 namespace desktop_pet
 {
+	/// <summary>
+	/// 音源の再生
+	/// </summary>
 	public static class SoundPlayer
 	{
 		private static readonly WindowsMediaPlayer mediaPlayer = new WindowsMediaPlayer();
 
 		/// <summary>
-		/// play sound.
+		/// windwos media playerで音源を再生
 		/// </summary>
-		/// <param name="filePath">sound file path</param>
+		/// <param name="filePath">音源のファイルパス</param>
 		public static void Play(string filePath)
 		{
 			if (File.Exists(filePath))
@@ -25,22 +28,22 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// when pc become low battely, play low battely sound.
+		/// パソコンのバッテリーが低下したときに低下用の音源の再生
 		/// </summary>
-		/// <param name="SoundPath">sound file path</param>
+		/// <param name="SoundPath">音源のファイルパス</param>
 		public static void PlayLowBattelySingal(string SoundPath)
 		{
-			if (isLowBattely())
+			if (IsLowBattely())
 			{
 				Play(SoundPath);
 			}
 		}
 
 		/// <summary>
-		/// when battely become low, return true.
+		/// バッテリーが低いかどうか
 		/// </summary>
-		/// <returns>is battely low?</returns>
-		private static bool isLowBattely()
+		/// <returns>バッテリーが低下したときにtrueそれ以外でfalse</returns>
+		private static bool IsLowBattely()
 		{
 			var pls = SystemInformation.PowerStatus.PowerLineStatus;
 			var blp = SystemInformation.PowerStatus.BatteryLifePercent;
@@ -55,9 +58,9 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// BUG: Can't play sound.
+		/// BUG:　再生できない
 		/// </summary>
-		/// <param name="exitSoundPath"></param>
+		/// <param name="exitSoundPath">音源のファイルパス</param>
 		public static void PlayExitSound(string exitSoundPath)
 		{
 			if (File.Exists(exitSoundPath))
@@ -68,9 +71,9 @@ namespace desktop_pet
 		}
 
 		/// <summary>
-		/// play time signal.
+		/// 時報の再生
 		/// </summary>
-		/// <param name="SoundPathList">time signal sound paths list. len is 24.</param>
+		/// <param name="SoundPathList">時報の音源ファイルのパスのリスト。長さは24でなければいけない</param>
 		public static void PlayTimeSignal(List<string> SoundPathList)
 		{
 			var hour = DateTime.Now.Hour;
@@ -78,14 +81,25 @@ namespace desktop_pet
 			Play(soundPath);
 		}
 		
+		/// <summary>
+		/// 指定の時間になったかどうか
+		/// </summary>
+		/// <param name="hour">時</param>
+		/// <param name="min">分</param>
+		/// <returns>その時間だったらtrue</returns>
 		public static bool IsTime(int hour, int min)
 		{
 			return DateTime.Now.Hour == hour && DateTime.Now.Minute == min && DateTime.Now.Second == 0;
 		}
 
+		/// <summary>
+		/// 指定の時間になったかどうか
+		/// </summary>
+		/// <param name="min">分</param>
+		/// <returns>その分だったらtrue</returns>
 		public static bool IsTime(int min)
 		{
 			return DateTime.Now.Minute == min && DateTime.Now.Second == 0;
 		}
-    }
+	}
 }
